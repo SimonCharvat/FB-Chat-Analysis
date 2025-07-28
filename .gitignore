@@ -1,3 +1,10 @@
+# Ignore chat log files (for privacy)
+*.json
+*.csv
+*.txt
+*.png
+*.jpg
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

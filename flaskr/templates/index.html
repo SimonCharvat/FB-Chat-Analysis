@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+    <title>Chat Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: auto;
+            padding: 1em;
+            background-color: #e5ddd5;
+        }
+
+        h2 {
+            text-align: center;
+            color: #444;
+        }
+
+        form {
+            margin-bottom: 1em;
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+        }
+
+        input[type="datetime-local"],
+        input[type="text"] {
+            padding: 0.5em;
+            font-size: 1em;
+            flex-grow: 1;
+        }
+
+        button {
+            padding: 0.5em 1em;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em; /* Small gap between messages */
+        }
+
+        .message-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-row {
+            align-self: flex-start;
+            max-width: 85%;
+            padding: 0.4em 0.6em;
+            margin: 1px 0;
+            border-radius: 1em;
+            background-color: #fff;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .message-meta {
+            font-size: 0.7em;
+            color: #666;
+            margin-bottom: 0.2em;
+        }
+
+        .message-text {
+            white-space: normal;
+            padding: 0.2em;
+        }
+
+        .message-reactions {
+            font-size: 0.75em;
+            margin-top: 0.2em;
+            color: #888;
+        }
+
+        .highlight {
+            border: 2px solid #ff00ff !important;
+            background-color: #fffbd7 !important;
+            padding: 0.4em 0.6em; /* same padding as message-row */
+            border-radius: 1em;   /* same border-radius */
+        }
+
+        .pagination {
+            margin-top: 1em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Facebook Group Chat Viewer</h2>
+
+<form method="get" action="{{ url_for('index') }}">
+    Jump to date/time: <input type="datetime-local" name="jump_to" value="{{ jump_to|default('') }}">
+    <button type="submit">Go</button>
+</form>
+
+<form method="get" action="{{ url_for('index') }}">
+    Search (sender or content): <input type="text" name="q" value="{{ q|default('') }}">
+    <button type="submit">Search</button>
+</form>
+
+<p>Showing messages {{ start+1 }} to {{ end }} of {{ total }}</p>
+
+<div class="chat-container">
+    {% for row in page_df.itertuples() %}
+        {% if gaps[loop.index0] %}
+            <div style="height: 20px;"></div>  {# Vertical gap for >30 min break #}
+        {% endif %}
+        <div class="message-group {% if jump_index is not none and row.Index == jump_index %}highlight{% endif %}">
+            <div
+            class="message-row"
+            style="background-color: {{ color_map.get(row.sender_name, '#fff') }}; color: #000;"
+            >
+                <div class="message-meta">
+                    <strong>{{ row.sender_name }}</strong> — {{ row.datetime.strftime("%Y-%m-%d %H:%M:%S") }}
+                </div>
+                <div class="message-text">
+                    {{ row.content | replace('\n', ' ') | replace('\r', '') | trim }}
+                    {% if q %}
+                        <div><a href="{{ url_for('index', jump_to=row.datetime.isoformat()) }}">Jump to context</a></div>
+                    {% endif %}
+                </div>
+                {% if row.reactions %}
+                    <div class="message-reactions">
+                        {{ row.reactions }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    {% if page > 1 %}
+        <a href="{{ url_for('index', page=page-1, q=q, jump_to=jump_to) }}">⬅ Prev</a>
+    {% endif %}
+    {% if end < total %}
+        <a href="{{ url_for('index', page=page+1, q=q, jump_to=jump_to) }}">Next ➡</a>
+    {% endif %}
+</div>
+
+</body>
+</html>
