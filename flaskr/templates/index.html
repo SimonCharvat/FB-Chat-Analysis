@@ -145,10 +145,10 @@
 
 <div class="pagination">
     {% if page > 1 %}
-        <a href="{{ url_for('index', page=page-1, q=q, jump_to=jump_to) }}">⬅ Prev</a>
+        <a href="{{ url_for('index', page=page-1) }}">⬅ Prev</a>
     {% endif %}
     {% if end < total %}
-        <a href="{{ url_for('index', page=page+1, q=q, jump_to=jump_to) }}">Next ➡</a>
+        <a href="{{ url_for('index', page=page+1) }}">Next ➡</a>
     {% endif %}
 </div>
 
