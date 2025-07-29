@@ -611,7 +611,7 @@ def plot_messages_per_month(messages_df):
 
 
 
-def plot_messages_to_reactions_ratio(messages_df: pd.DataFrame):
+def plot_reactions_messages_ratio(messages_df: pd.DataFrame):
     """
     Calculates and plots the ratio: number of messages / total reactions count per user.
     
@@ -619,7 +619,7 @@ def plot_messages_to_reactions_ratio(messages_df: pd.DataFrame):
     - 'sender_name' column exists
     - 'reactions' column contains list of reactions or NaN/None
     
-    Saves plot to outputs/messages_to_reactions_ratio.png
+    Saves plot to outputs/reactions_to_messages_ratio.png
     """
     
     # Aggregate total messages and total reactions per user
@@ -629,7 +629,7 @@ def plot_messages_to_reactions_ratio(messages_df: pd.DataFrame):
     )
 
     # Avoid division by zero: if total_reactions = 0, set ratio to NaN or inf (decide)
-    agg['ratio'] = agg['total_messages'] / agg['total_reactions'].replace(0, float('nan'))
+    agg['ratio'] = agg['total_reactions'].replace(0, float('nan')) / agg['total_messages']
 
     # Drop users with NaN ratios (no reactions at all)
     agg = agg.dropna(subset=['ratio']).sort_values('ratio', ascending=False)
@@ -642,9 +642,9 @@ def plot_messages_to_reactions_ratio(messages_df: pd.DataFrame):
     plt.figure(figsize=(12, 7))
     ax = agg['ratio'].plot(kind='bar', color='tab:orange')
 
-    plt.title("Number of Messages / Total Reactions per User", fontsize=14, weight='bold')
+    plt.title("Total Reactions per User / Number of Messages", fontsize=14, weight='bold')
     plt.xlabel("User")
-    plt.ylabel("Messages to Reactions Ratio")
+    plt.ylabel("Reactions to Messages Ratio")
     plt.xticks(rotation=45, ha='right')
 
     # Add ratio labels on bars
@@ -653,7 +653,7 @@ def plot_messages_to_reactions_ratio(messages_df: pd.DataFrame):
 
     plt.tight_layout()
     os.makedirs("outputs", exist_ok=True)
-    plt.savefig("outputs/messages_to_reactions_ratio.png", dpi=300, bbox_inches='tight')
+    plt.savefig("outputs/reactions_to_messages_ratio.png", dpi=300, bbox_inches='tight')
     plt.close()
 
 

@@ -65,7 +65,7 @@ visualize.plot_hour_of_day_heatmaps(messages_df)
 visualize.plot_messages_per_month(messages_df)
 
 # Plot reactions
-visualize.plot_messages_to_reactions_ratio(messages_df)
+visualize.plot_reactions_messages_ratio(messages_df)
 
 # Plot call timeline
 visualize.draw_call_timeline(messages_df)
