@@ -72,3 +72,6 @@ visualize.draw_call_timeline(messages_df)
 
 # Plot unset messages
 visualize.plot_unsent_messages_per_user(messages_df)
+
+# Plot messages by user
+visualize.plot_messages_per_sender(messages_df)

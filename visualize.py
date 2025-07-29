@@ -740,3 +740,36 @@ def plot_unsent_messages_per_user(messages_df, output_path="outputs/unsent_messa
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
+
+
+
+def plot_messages_per_sender(messages_df, output_path="outputs/messages_per_sender.png"):
+    # Count messages per sender
+    sender_counts = messages_df['sender_name'].value_counts()
+
+    # Total number of messages
+    total_messages = sender_counts.sum()
+
+    # Plot
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(sender_counts.index, sender_counts.values, color='skyblue')
+
+    # Add value labels on top of each bar
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2, height, f'{height}', ha='center', va='bottom', fontsize=9)
+
+    # Title and labels
+    plt.title(f'Number of Messages per Sender\nTotal Messages: {total_messages}', fontsize=14)
+    plt.xlabel('Sender', fontsize=12)
+    plt.ylabel('Number of Messages', fontsize=12)
+    plt.xticks(rotation=45, ha='right')
+
+    # Layout adjustment
+    plt.tight_layout()
+
+    # Save plot to file
+    plt.savefig(output_path)
+    plt.close()
+
+    print(f"Plot saved to: {output_path}")
