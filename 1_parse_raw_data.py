@@ -2,7 +2,6 @@
 # TODO:
 # - call duration
 
-
 # Standard imports
 import json
 import os
@@ -14,16 +13,12 @@ from functools import partial
 # Third-party imports
 import pandas as pd
 
+# Local imports
+import utils
 
 
 
-file_paths = [
-    "messages/message_1.json",
-    "messages/message_2.json",
-    "messages/message_3.json",
-    "messages/message_4.json",
-    ]
-
+file_paths = utils.get_json_file_paths()
 
 
 final_column_order = [

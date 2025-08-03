@@ -1,16 +1,35 @@
 
 
 # Standard imports
-import json
+import glob
 import os
-import re
 import csv
-import datetime
-from functools import partial
 
 # Third-party imports
 import pandas as pd
 import numpy as np
+
+
+def get_json_file_paths(folder_path="messages"):
+    """
+    Returns a sorted list of .json file paths from the given folder.
+
+    Raises:
+        FileNotFoundError: If the folder doesn't exist or contains no .json files.
+    """
+    if not os.path.isdir(folder_path):
+        raise FileNotFoundError(f"Folder '{folder_path}' does not exist.")
+    
+    file_paths = sorted(glob.glob(os.path.join(folder_path, "*.json")))
+
+    if not file_paths:
+        raise FileNotFoundError(f"No JSON files found in folder '{folder_path}'.")
+
+    print(f"Detected {len(file_paths)} JSON file(s):")
+    for path in file_paths:
+        print(path)
+
+    return file_paths
 
 
 def load_messages_csv(filepath: str) -> pd.DataFrame:
