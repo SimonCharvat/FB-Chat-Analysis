@@ -1,6 +1,6 @@
 # 📊 FB Chat Analysis
 
-A Python project that analyzes Facebook chat data to generate insightful statistics and visualizations. Includes a simple Flask web app for browsing and searching chat messages.
+A Python project that analyzes Facebook chat data to generate insightful statistics and visualizations. Includes a simple Flask web app for browsing and searching chat messages. Ideal for group chats.
 
 ---
 
@@ -20,6 +20,7 @@ FB-Chat-Analysis/
 ├── 1_parse_raw_data.py       # Loads and processes raw JSON chat data
 ├── 2_static_analysis.py      # Generates plots and statistics
 ├── messages.csv              # Preprocessed chat data (generated)
+├── requirements.txt          # Required libraries
 ├── utils.py                  # Utility functions
 ├── visualize.py              # Plotting helpers
 ├── flaskr/                   # Flask web app
@@ -86,7 +87,9 @@ Then visit `http://127.0.0.1:5000/` in your browser.
 - Python 3.10+
 - Flask
 - Pandas
-- Matplotlib / Seaborn
+- Numpy
+- Matplotlib
+- Seaborn
 
 Install requirements via:
 
