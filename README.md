@@ -40,8 +40,11 @@ FB-Chat-Analysis/
 1. Go to [Facebook Download Your Information](https://accountscenter.facebook.com/info_and_permissions/dyi)
 2. Choose **Messages** as the data type
 3. Select **JSON** format
-4. Download and extract the archive
-5. Copy all message JSON files into the `/messages/` directory
+4. Download and extract all the archive files
+5. Look through the extracted folders to find the chat you want to analyze:
+    - _facebook-your_name-aaaa.zip/your_facebook_activity/messages/inbox/your_chat_name_
+6. One (or more) of the archives will contain files like `message_1.json`, `message_2.json`, etc.
+7. Copy **all** the JSON files into the `/messages/` directory
 
 ---
 
